@@ -11,8 +11,8 @@
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="br.com.financial.transacoes" level="info" additivity="true" >
-            <AppenderRef ref="File"/>
+        <Logger name="br.com.financial.transacoes.log" level="info" additivity="true" >
+            <AppenderRef ref="File" />
         </Logger>
         <Logger level="info" >
             <AppenderRef ref="LogToConsole"/>
