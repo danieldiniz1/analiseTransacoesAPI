@@ -1,5 +1,6 @@
 package br.com.financial.transacoes.model;
 
+import br.com.financial.transacoes.controller.form.CadastroForm;
 import br.com.financial.transacoes.model.enums.Categoria;
 import br.com.financial.transacoes.model.enums.Conta;
 import br.com.financial.transacoes.model.enums.Tipo;
@@ -32,6 +33,16 @@ public class Transacao {
         this.conta = conta;
         this.valorTransacao = valorTransacao;
     }
+    public Transacao(CadastroForm cadastroForm, Tipo tipo) {
+        this.tipo = tipo;
+//        this.dataTransacao = LocalDateTime.parse(cadastroForm.getDataLancamento());
+        this.dataTransacao = LocalDateTime.now();
+        this.descricao = cadastroForm.getDescricao();
+        this.categoria = Categoria.toEnumCategoria(Integer.parseInt(cadastroForm.getCategoria()));
+        this.conta = Conta.toEnumConta(Integer.parseInt(cadastroForm.getConta()));
+        this.valorTransacao = BigDecimal.valueOf(Double.valueOf(cadastroForm.getValor()));
+    }
+
 
     public Long getId() {
         return id;
@@ -87,5 +98,10 @@ public class Transacao {
 
     public void setValorTransacao(BigDecimal valorTransacao) {
         this.valorTransacao = valorTransacao;
+    }
+
+    public static Transacao of(CadastroForm cadastroForm, Tipo tipo){
+        Transacao transacao = new Transacao(cadastroForm, tipo);
+        return transacao;
     }
 }
