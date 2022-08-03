@@ -50,6 +50,11 @@ public class DefaultReceitaService implements TransacaoReceitaService {
         transacaoRepository.save(transacao);
     }
 
+    @Override
+    public void deletarTransacao(Long id) {
+        transacaoRepository.deleteById(id);
+    }
+
     private void atualizaTransacao(Transacao transacao, UpdateForm updateForm) {
         LOGGER.info("descrição antiga " + transacao.getDescricao());
         LOGGER.info("descrição nova " + updateForm.getDescricao());

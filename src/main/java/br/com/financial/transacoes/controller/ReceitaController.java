@@ -46,4 +46,10 @@ public class ReceitaController {
         transacaoReceitaService.atualizarTransacao(updateForm, id);
         return ResponseEntity.status(200).build();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteReceita(@PathVariable Long id){
+        transacaoReceitaService.deletarTransacao(id);
+        return ResponseEntity.status(200).build();
+    }
 }

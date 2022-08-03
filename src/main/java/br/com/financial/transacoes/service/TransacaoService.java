@@ -15,4 +15,6 @@ public interface TransacaoService {
     TransacaoDTO buscarTransacaoPorId(Long id);
 
     void atualizarTransacao(UpdateForm updateForm, Long id);
+
+    void deletarTransacao(Long id);
 }
