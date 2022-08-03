@@ -4,6 +4,7 @@ import br.com.financial.transacoes.controller.dto.ListaTransacoesDTO;
 import br.com.financial.transacoes.controller.dto.TransacaoCriadaDTO;
 import br.com.financial.transacoes.controller.dto.TransacaoDTO;
 import br.com.financial.transacoes.controller.form.CadastroForm;
+import br.com.financial.transacoes.controller.form.UpdateForm;
 import br.com.financial.transacoes.exception.TransactionNotFoundExcpetion;
 import br.com.financial.transacoes.model.Transacao;
 import br.com.financial.transacoes.model.enums.Tipo;
@@ -14,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -24,11 +26,10 @@ public class DefaultReceitaService implements TransacaoReceitaService {
     private static final Logger LOGGER = LogManager.getLogger(DefaultReceitaService.class);
     private final Tipo tipo = Tipo.toEnumTipo(1);
     public TransacaoCriadaDTO adicionarTransacao(CadastroForm receitaForm) {
-        Transacao save = transacaoRepository.save(convertFormToModel(receitaForm));
+        Transacao save = transacaoRepository.save(convertCadastroFormToModel(receitaForm));
         Optional<Transacao> transacaoSalva = transacaoRepository.findById(save.getId());
-        Transacao transacao = transacaoSalva.get();
+        Transacao transacao = transacaoSalva.get(); //refatorar para deixar mais clean.
         return convertTransacaoToDTO(transacao);
-
     }
 
     @Override
@@ -42,6 +43,23 @@ public class DefaultReceitaService implements TransacaoReceitaService {
                 "Transação com id: " + id.toString() + " não foi encontrada")));
     }
 
+    @Override
+    public void atualizarTransacao(UpdateForm updateForm, Long id) {
+        Transacao transacao = transacaoRepository.findById(id).get();
+        atualizaTransacao(transacao,updateForm);
+        transacaoRepository.save(transacao);
+    }
+
+    private void atualizaTransacao(Transacao transacao, UpdateForm updateForm) {
+        LOGGER.info("descrição antiga " + transacao.getDescricao());
+        LOGGER.info("descrição nova " + updateForm.getDescricao());
+        transacao.setDescricao(updateForm.getDescricao());
+
+        LOGGER.info("valor antigo " + transacao.getValorTransacao().toString());
+        LOGGER.info("valor nova " + updateForm.getValor());
+        transacao.setValorTransacao(BigDecimal.valueOf(Double.valueOf(updateForm.getValor())));
+    }
+
     private TransacaoCriadaDTO convertTransacaoToDTO(Transacao transacao) {
         return new TransacaoCriadaDTO(transacao.getId().toString(),
                 transacao.getCategoria(),
@@ -50,7 +68,7 @@ public class DefaultReceitaService implements TransacaoReceitaService {
 
     }
 
-    private Transacao convertFormToModel(CadastroForm receitaForm) {
+    private Transacao convertCadastroFormToModel(CadastroForm receitaForm) {
         return Transacao.of(receitaForm, tipo);
     }
 
