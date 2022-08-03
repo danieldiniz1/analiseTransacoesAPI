@@ -27,9 +27,9 @@ public class DefaultReceitaService implements TransacaoReceitaService {
     private final Tipo tipo = Tipo.toEnumTipo(1);
     public TransacaoCriadaDTO adicionarTransacao(CadastroForm receitaForm) {
         Transacao save = transacaoRepository.save(convertCadastroFormToModel(receitaForm));
-        Optional<Transacao> transacaoSalva = transacaoRepository.findById(save.getId());
-        Transacao transacao = transacaoSalva.get(); //refatorar para deixar mais clean.
-        return convertTransacaoToDTO(transacao);
+//        Optional<Transacao> transacaoSalva = transacaoRepository.findById(save.getId());
+//        Transacao transacao = transacaoSalva.get();
+        return convertTransacaoToDTO(transacaoRepository.findById(save.getId()).get());
     }
 
     @Override
