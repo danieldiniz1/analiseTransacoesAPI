@@ -1,6 +1,8 @@
 package br.com.financial.transacoes.controller;
 
+import br.com.financial.transacoes.controller.dto.ListaTransacoesDTO;
 import br.com.financial.transacoes.controller.dto.TransacaoCriadaDTO;
+import br.com.financial.transacoes.controller.dto.TransacaoDTO;
 import br.com.financial.transacoes.controller.form.CadastroReceitaForm;
 import br.com.financial.transacoes.service.TransacaoReceitaService;
 import org.apache.logging.log4j.LogManager;
@@ -26,5 +28,15 @@ public class ReceitaController {
         TransacaoCriadaDTO transacaoCriadaDTO = transacaoReceitaService.adicionarTransacao(receitaForm);
 
         return ResponseEntity.status(201).body(transacaoCriadaDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<ListaTransacoesDTO> buscaTodasReceitas(){
+        return ResponseEntity.status(200).body(transacaoReceitaService.getTodasTransacoes());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TransacaoDTO> buscarReceitaPorId(@PathVariable Long id){
+        return ResponseEntity.status(200).body(transacaoReceitaService.buscarTransacaoPorId(id));
     }
 }

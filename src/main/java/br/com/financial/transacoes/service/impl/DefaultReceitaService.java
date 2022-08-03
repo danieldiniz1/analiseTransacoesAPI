@@ -1,7 +1,10 @@
 package br.com.financial.transacoes.service.impl;
 
+import br.com.financial.transacoes.controller.dto.ListaTransacoesDTO;
 import br.com.financial.transacoes.controller.dto.TransacaoCriadaDTO;
+import br.com.financial.transacoes.controller.dto.TransacaoDTO;
 import br.com.financial.transacoes.controller.form.CadastroForm;
+import br.com.financial.transacoes.exception.TransactionNotFoundExcpetion;
 import br.com.financial.transacoes.model.Transacao;
 import br.com.financial.transacoes.model.enums.Tipo;
 import br.com.financial.transacoes.repository.TransacaoRepository;
@@ -26,6 +29,17 @@ public class DefaultReceitaService implements TransacaoReceitaService {
         Transacao transacao = transacaoSalva.get();
         return convertTransacaoToDTO(transacao);
 
+    }
+
+    @Override
+    public ListaTransacoesDTO getTodasTransacoes() {
+        return new ListaTransacoesDTO(transacaoRepository.findAll());
+    }
+
+    @Override
+    public TransacaoDTO buscarTransacaoPorId(Long id) {
+        return new TransacaoDTO(transacaoRepository.findById(id).orElseThrow(() -> new TransactionNotFoundExcpetion("" +
+                "Transação com id: " + id.toString() + " não foi encontrada")));
     }
 
     private TransacaoCriadaDTO convertTransacaoToDTO(Transacao transacao) {
