@@ -25,6 +25,6 @@ public class ReceitaController {
     public ResponseEntity<TransacaoCriadaDTO> cadastroReceita(@RequestBody @Valid ReceitaForm receitaForm){
         TransacaoCriadaDTO transacaoCriadaDTO = transacaoService.adicionar(receitaForm);
 
-        return ResponseEntity.status(202).body(transacaoCriadaDTO);
+        return ResponseEntity.status(201).body(transacaoCriadaDTO);
     }
 }
