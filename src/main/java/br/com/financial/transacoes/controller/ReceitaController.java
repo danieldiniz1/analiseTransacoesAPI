@@ -1,8 +1,8 @@
 package br.com.financial.transacoes.controller;
 
 import br.com.financial.transacoes.controller.dto.TransacaoCriadaDTO;
-import br.com.financial.transacoes.controller.form.ReceitaForm;
-import br.com.financial.transacoes.service.TransacaoService;
+import br.com.financial.transacoes.controller.form.CadastroReceitaForm;
+import br.com.financial.transacoes.service.TransacaoReceitaService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +16,14 @@ import javax.validation.Valid;
 public class ReceitaController {
 
     @Autowired
-    private TransacaoService transacaoService;
+    private TransacaoReceitaService transacaoReceitaService;
 
     private static final Logger LOGGER = LogManager.getLogger(ReceitaController.class);
 
     @PostMapping("/adicionar-receita")
     @ResponseBody
-    public ResponseEntity<TransacaoCriadaDTO> cadastroReceita(@RequestBody @Valid ReceitaForm receitaForm){
-        TransacaoCriadaDTO transacaoCriadaDTO = transacaoService.adicionar(receitaForm);
+    public ResponseEntity<TransacaoCriadaDTO> cadastroReceita(@RequestBody @Valid CadastroReceitaForm receitaForm){
+        TransacaoCriadaDTO transacaoCriadaDTO = transacaoReceitaService.adicionarTransacao(receitaForm);
 
         return ResponseEntity.status(201).body(transacaoCriadaDTO);
     }
