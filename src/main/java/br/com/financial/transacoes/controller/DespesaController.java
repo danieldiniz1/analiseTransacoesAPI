@@ -3,6 +3,7 @@ package br.com.financial.transacoes.controller;
 import br.com.financial.transacoes.controller.dto.ListaTransacoesDTO;
 import br.com.financial.transacoes.controller.dto.TransacaoDTO;
 import br.com.financial.transacoes.controller.form.CadastroDespesaForm;
+import br.com.financial.transacoes.controller.form.UpdateForm;
 import br.com.financial.transacoes.service.TransacaoDespesaService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +34,12 @@ public class DespesaController {
     @GetMapping("/{id}")
     public ResponseEntity<TransacaoDTO> buscarDespesaporId(@PathVariable Long id){
         return ResponseEntity.ok(transacaoDespesaService.buscarTransacaoPorId(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity atualizarDespesaPorId(@PathVariable Long id, @RequestBody UpdateForm updateForm){
+        transacaoDespesaService.atualizarTransacao(updateForm,id);
+        return ResponseEntity.ok().build();
     }
 
 

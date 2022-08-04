@@ -15,6 +15,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class DefaultDespesaService implements TransacaoDespesaService {
 
@@ -50,7 +52,14 @@ public class DefaultDespesaService implements TransacaoDespesaService {
 
     @Override
     public void atualizarTransacao(UpdateForm updateForm, Long id) {
+        Transacao transacaoASerAtualizada = transacaoRepository.findByIdAndTipo(id, tipo);
+        atualizaTransacao(updateForm, transacaoASerAtualizada);
+        transacaoRepository.save(transacaoASerAtualizada);
+    }
 
+    private void atualizaTransacao(UpdateForm updateForm, Transacao transacaoASerAtualizada) {
+        transacaoASerAtualizada.setDescricao(updateForm.getDescricao());
+        transacaoASerAtualizada.setValorTransacao(BigDecimal.valueOf(Double.valueOf(updateForm.getValor())));
     }
 
     @Override
