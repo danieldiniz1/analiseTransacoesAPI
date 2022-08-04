@@ -57,17 +57,17 @@ public class DefaultDespesaService implements TransacaoDespesaService {
         transacaoRepository.save(transacaoASerAtualizada);
     }
 
-    private void atualizaTransacao(UpdateForm updateForm, Transacao transacaoASerAtualizada) {
-        transacaoASerAtualizada.setDescricao(updateForm.getDescricao());
-        transacaoASerAtualizada.setValorTransacao(BigDecimal.valueOf(Double.valueOf(updateForm.getValor())));
-    }
-
     @Override
     public void deletarTransacao(Long id) {
-
+        transacaoRepository.deleteById(id);
     }
 
     private Transacao converterFormToModel(CadastroForm cadastroForm) {
         return Transacao.of(cadastroForm,tipo);
+    }
+
+    private void atualizaTransacao(UpdateForm updateForm, Transacao transacaoASerAtualizada) {
+        transacaoASerAtualizada.setDescricao(updateForm.getDescricao());
+        transacaoASerAtualizada.setValorTransacao(BigDecimal.valueOf(Double.valueOf(updateForm.getValor())));
     }
 }

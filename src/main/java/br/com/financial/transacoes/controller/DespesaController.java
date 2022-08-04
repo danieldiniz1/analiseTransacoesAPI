@@ -32,14 +32,20 @@ public class DespesaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransacaoDTO> buscarDespesaporId(@PathVariable Long id){
+    public ResponseEntity<TransacaoDTO> buscarDespesapId(@PathVariable Long id){
         return ResponseEntity.ok(transacaoDespesaService.buscarTransacaoPorId(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity atualizarDespesaPorId(@PathVariable Long id, @RequestBody UpdateForm updateForm){
+    public ResponseEntity atualizarDespesaId(@PathVariable Long id, @RequestBody UpdateForm updateForm){
         transacaoDespesaService.atualizarTransacao(updateForm,id);
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity excluirDespesaId(@PathVariable Long id){
+        transacaoDespesaService.deletarTransacao(id);
+        return ResponseEntity.accepted().build();
     }
 
 

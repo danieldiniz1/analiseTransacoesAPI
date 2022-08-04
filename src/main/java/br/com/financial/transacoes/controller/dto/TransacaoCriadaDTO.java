@@ -55,7 +55,7 @@ public class TransacaoCriadaDTO {
     }
 
     public static TransacaoCriadaDTO of(Transacao transacao){
-        return new TransacaoCriadaDTO(transacao.getDescricao(),
+        return new TransacaoCriadaDTO(transacao.getId().toString(),
                 transacao.getCategoria(),
                 transacao.getTipo(),
                 transacao.getConta());
