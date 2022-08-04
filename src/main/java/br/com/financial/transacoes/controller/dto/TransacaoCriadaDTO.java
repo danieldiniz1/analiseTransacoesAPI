@@ -1,5 +1,6 @@
 package br.com.financial.transacoes.controller.dto;
 
+import br.com.financial.transacoes.model.Transacao;
 import br.com.financial.transacoes.model.enums.Categoria;
 import br.com.financial.transacoes.model.enums.Conta;
 import br.com.financial.transacoes.model.enums.Tipo;
@@ -51,5 +52,12 @@ public class TransacaoCriadaDTO {
 
     public void setConta(Conta conta) {
         this.conta = conta;
+    }
+
+    public static TransacaoCriadaDTO of(Transacao transacao){
+        return new TransacaoCriadaDTO(transacao.getId().toString(),
+                transacao.getCategoria(),
+                transacao.getTipo(),
+                transacao.getConta());
     }
 }

@@ -34,18 +34,23 @@ public class DefaultReceitaService implements TransacaoReceitaService {
 
     @Override
     public ListaTransacoesDTO getTodasTransacoes() {
-        return new ListaTransacoesDTO(transacaoRepository.findAll());
+        return new ListaTransacoesDTO(transacaoRepository.findAllByTipo(tipo));
     }
 
     @Override
     public TransacaoDTO buscarTransacaoPorId(Long id) {
-        return new TransacaoDTO(transacaoRepository.findById(id).orElseThrow(() -> new TransactionNotFoundExcpetion("" +
-                "Transação com id: " + id.toString() + " não foi encontrada")));
+        TransacaoDTO transacaoDTO = null;
+        try {
+            transacaoDTO = new TransacaoDTO(transacaoRepository.findByIdAndTipo(id, tipo));
+        } catch (TransactionNotFoundExcpetion transactionNotFoundExcpetion){
+            LOGGER.info("Transação com id: " + id.toString() + " não foi encontrada");
+        }
+        return transacaoDTO;
     }
 
     @Override
     public void atualizarTransacao(UpdateForm updateForm, Long id) {
-        Transacao transacao = transacaoRepository.findById(id).get();
+        Transacao transacao = transacaoRepository.findByIdAndTipo(id,tipo);
         atualizaTransacao(transacao,updateForm);
         transacaoRepository.save(transacao);
     }
