@@ -50,7 +50,7 @@ public class DefaultReceitaService implements TransacaoReceitaService {
 
     @Override
     public void atualizarTransacao(UpdateForm updateForm, Long id) {
-        Transacao transacao = transacaoRepository.findById(id).get();
+        Transacao transacao = transacaoRepository.findByIdAndTipo(id,tipo);
         atualizaTransacao(transacao,updateForm);
         transacaoRepository.save(transacao);
     }
