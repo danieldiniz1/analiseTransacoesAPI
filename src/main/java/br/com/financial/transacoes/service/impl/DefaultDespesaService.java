@@ -64,7 +64,13 @@ public class DefaultDespesaService implements TransacaoDespesaService {
 
     @Override
     public TransacaoDTO buscarTransacaoPorDescricao(String descricao) {
-        return null;
+        Transacao transacao = null;
+        try {
+            transacao = transacaoRepository.findByDescricaoAndTipo(descricao,tipo);
+        } catch (TransactionNotFoundExcpetion transactionNotFoundExcpetion){
+            LOGGER.info("Transação com descrição: " + descricao + " não foi encontrada");
+        }
+        return new TransacaoDTO(transacao);
     }
 
     private Transacao converterFormToModel(CadastroForm cadastroForm) {

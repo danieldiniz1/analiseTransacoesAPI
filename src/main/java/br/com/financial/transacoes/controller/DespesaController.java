@@ -48,6 +48,10 @@ public class DespesaController {
         return ResponseEntity.accepted().build();
     }
 
-
+    @GetMapping("buscar-descricao")
+    public ResponseEntity<TransacaoDTO> buscarReceitaPorDescricao(@RequestParam String descricao){
+        LOGGER.info("iniciado busca de despesa com descrição: " + descricao);
+        return ResponseEntity.ok().body(transacaoDespesaService.buscarTransacaoPorDescricao(descricao));
+    }
 
 }
