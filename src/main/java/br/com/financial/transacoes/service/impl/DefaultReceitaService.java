@@ -60,6 +60,17 @@ public class DefaultReceitaService implements TransacaoReceitaService {
         transacaoRepository.deleteById(id);
     }
 
+    @Override
+    public TransacaoDTO buscarTransacaoPorDescricao(String descricao) {
+        Transacao transacao = null;
+        try {
+           transacao = transacaoRepository.findByDescricaoAndTipo(descricao,tipo);
+        } catch (TransactionNotFoundExcpetion transactionNotFoundExcpetion){
+            LOGGER.info("Transação com descrição: " + descricao + " não foi encontrada");
+        }
+        return new TransacaoDTO(transacao);
+    }
+
     private void atualizaTransacao(Transacao transacao, UpdateForm updateForm) {
         LOGGER.info("descrição antiga " + transacao.getDescricao());
         LOGGER.info("descrição nova " + updateForm.getDescricao());

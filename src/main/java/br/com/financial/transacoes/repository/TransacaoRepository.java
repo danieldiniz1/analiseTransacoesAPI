@@ -12,4 +12,5 @@ public interface TransacaoRepository extends JpaRepository<Transacao,Long> {
 
     List<Transacao> findAllByTipo(Tipo tipo);
     Transacao findByIdAndTipo(Long id, Tipo tipo);
+    Transacao findByDescricaoAndTipo(String Descricao,Tipo tipo);
 }

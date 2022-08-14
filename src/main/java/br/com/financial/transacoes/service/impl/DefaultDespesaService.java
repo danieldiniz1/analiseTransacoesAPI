@@ -62,6 +62,11 @@ public class DefaultDespesaService implements TransacaoDespesaService {
         transacaoRepository.deleteById(id);
     }
 
+    @Override
+    public TransacaoDTO buscarTransacaoPorDescricao(String descricao) {
+        return null;
+    }
+
     private Transacao converterFormToModel(CadastroForm cadastroForm) {
         return Transacao.of(cadastroForm,tipo);
     }

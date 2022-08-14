@@ -5,6 +5,7 @@ import br.com.financial.transacoes.controller.dto.TransacaoCriadaDTO;
 import br.com.financial.transacoes.controller.dto.TransacaoDTO;
 import br.com.financial.transacoes.controller.form.CadastroReceitaForm;
 import br.com.financial.transacoes.controller.form.UpdateForm;
+import br.com.financial.transacoes.model.Transacao;
 import br.com.financial.transacoes.service.TransacaoReceitaService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,5 +52,11 @@ public class ReceitaController {
     public ResponseEntity deleteReceita(@PathVariable Long id){
         transacaoReceitaService.deletarTransacao(id);
         return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("buscar-descricao")
+    public ResponseEntity<TransacaoDTO> buscarReceitaPorDescricao(@RequestParam String descricao){
+        LOGGER.info("iniciado busca de receita com descrição: " + descricao);
+        return ResponseEntity.ok().body(transacaoReceitaService.buscarTransacaoPorDescricao(descricao));
     }
 }
