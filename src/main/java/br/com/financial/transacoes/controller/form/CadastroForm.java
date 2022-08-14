@@ -18,9 +18,8 @@ public class CadastroForm {
     @NotBlank(message = "Data de lançamento inválida - data deve estar no formado yyyy-MM-dd")
     @Size(min = 10, max = 11)
     private String dataLancamento;
-    @NotNull(message = "categoria pode ser nulo")
-    @NotBlank(message = "categoria inválida")
-    @Size(min = 1, max = 2)
+
+    @Size(max = 2)
     private String categoria;
     @NotNull(message = "o código de conta não pode ser nulo")
     @NotBlank(message = "código de conta inválida")

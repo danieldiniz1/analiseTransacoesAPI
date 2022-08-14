@@ -39,9 +39,19 @@ public class Transacao {
         this.dataTransacao = LocalDate.parse(cadastroForm.getDataLancamento());
 //        this.dataTransacao = LocalDateTime.now();
         this.descricao = cadastroForm.getDescricao();
-        this.categoria = Categoria.toEnumCategoria(Integer.parseInt(cadastroForm.getCategoria()));
+        validaCategoria(cadastroForm);
         this.conta = Conta.toEnumConta(Integer.parseInt(cadastroForm.getConta()));
         this.valorTransacao = BigDecimal.valueOf(Double.valueOf(cadastroForm.getValor()));
+    }
+
+    private void validaCategoria(CadastroForm cadastroForm) {
+        if (cadastroForm.getCategoria() == null ||
+                cadastroForm.getCategoria().isBlank() ||
+                cadastroForm.getCategoria().isEmpty()){
+            this.categoria = Categoria.toEnumCategoria(0);
+        }else {
+            this.categoria = Categoria.toEnumCategoria(Integer.parseInt(cadastroForm.getCategoria()));
+        }
     }
 
     public Long getId() {
