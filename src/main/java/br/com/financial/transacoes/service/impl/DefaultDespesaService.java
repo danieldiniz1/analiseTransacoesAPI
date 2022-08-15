@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Service
 public class DefaultDespesaService implements TransacaoDespesaService {
@@ -71,6 +72,15 @@ public class DefaultDespesaService implements TransacaoDespesaService {
             LOGGER.info("Transação com descrição: " + descricao + " não foi encontrada");
         }
         return new TransacaoDTO(transacao);
+    }
+
+    @Override
+    public ListaTransacoesDTO buscarTransacaoPorMesEAno(Integer ano, Integer mes) {
+        LocalDateTime dataInicial = LocalDateTime.of(ano, mes, 1, 0, 0);
+        LOGGER.info("data inicial: " + dataInicial.toString());
+        LocalDateTime dataFinal = dataInicial.plusMonths(1L);
+        LOGGER.info("data final: " + dataFinal.toString());
+        return null;
     }
 
     private Transacao converterFormToModel(CadastroForm cadastroForm) {
