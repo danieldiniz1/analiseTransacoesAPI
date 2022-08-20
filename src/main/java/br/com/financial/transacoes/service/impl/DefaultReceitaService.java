@@ -79,14 +79,7 @@ public class DefaultReceitaService implements TransacaoReceitaService {
         LOGGER.info("data inicial: " + dataInicial.toString());
         LocalDate dataFinal = dataInicial.plusMonths(1L).minusDays(1L);
         LOGGER.info("data final: " + dataFinal.toString());
-
-
-        List<Transacao> transacaoList = transacaoRepository.findByDataTransacaoBetweenAndTipo(dataInicial, dataFinal,tipo);
-        if (transacaoList.isEmpty()){
-            throw new TransactionNotFoundExcpetion("Não existem Lançamentos para o período entre" +
-                    ": " + dataInicial.toString() + " e: " + dataFinal.toString());
-        }
-        return ListaTransacoesDTO.of(transacaoList);
+        return ListaTransacoesDTO.of(transacaoRepository.findByDataTransacaoBetweenAndTipo(dataInicial,dataFinal,tipo));
     }
 
     private void atualizaTransacao(Transacao transacao, UpdateForm updateForm) {

@@ -8,6 +8,7 @@ import br.com.financial.transacoes.service.TransacaoDespesaService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,13 @@ public class DespesaController {
     public ResponseEntity<TransacaoDTO> buscarReceitaPorDescricao(@RequestParam String descricao){
         LOGGER.info("iniciado busca de despesa com descrição: " + descricao);
         return ResponseEntity.ok().body(transacaoDespesaService.buscarTransacaoPorDescricao(descricao));
+    }
+
+    @GetMapping("{ano}/{mes}")
+    public ResponseEntity<ListaTransacoesDTO> buscarReceitaPorAnoEMes(@PathVariable Integer ano, @PathVariable Integer mes){
+        LOGGER.info("ano: " + ano.toString());
+        LOGGER.info("mês: " + mes.toString());
+        return ResponseEntity.status(HttpStatus.OK).body(transacaoDespesaService.buscarTransacaoPorMesEAno(ano,mes));
     }
 
 }
