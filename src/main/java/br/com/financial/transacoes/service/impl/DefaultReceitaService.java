@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class DefaultReceitaService implements TransacaoReceitaService {
@@ -58,6 +60,26 @@ public class DefaultReceitaService implements TransacaoReceitaService {
     @Override
     public void deletarTransacao(Long id) {
         transacaoRepository.deleteById(id);
+    }
+
+    @Override
+    public TransacaoDTO buscarTransacaoPorDescricao(String descricao) {
+        Transacao transacao = null;
+        try {
+           transacao = transacaoRepository.findByDescricaoAndTipo(descricao,tipo);
+        } catch (TransactionNotFoundExcpetion transactionNotFoundExcpetion){
+            LOGGER.info("Transação com descrição: " + descricao + " não foi encontrada");
+        }
+        return new TransacaoDTO(transacao);
+    }
+
+    @Override
+    public ListaTransacoesDTO buscarTransacaoPorMesEAno(Integer ano, Integer mes) {
+        LocalDate dataInicial = LocalDate.of(ano,mes,1);
+        LOGGER.info("data inicial: " + dataInicial.toString());
+        LocalDate dataFinal = dataInicial.plusMonths(1L).minusDays(1L);
+        LOGGER.info("data final: " + dataFinal.toString());
+        return ListaTransacoesDTO.of(transacaoRepository.findByDataTransacaoBetweenAndTipo(dataInicial,dataFinal,tipo));
     }
 
     private void atualizaTransacao(Transacao transacao, UpdateForm updateForm) {

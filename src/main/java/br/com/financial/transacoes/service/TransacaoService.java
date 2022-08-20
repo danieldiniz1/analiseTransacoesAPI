@@ -17,4 +17,8 @@ public interface TransacaoService {
     void atualizarTransacao(UpdateForm updateForm, Long id);
 
     void deletarTransacao(Long id);
+
+    TransacaoDTO buscarTransacaoPorDescricao(String descricao);
+
+    ListaTransacoesDTO buscarTransacaoPorMesEAno(Integer ano, Integer mes);
 }

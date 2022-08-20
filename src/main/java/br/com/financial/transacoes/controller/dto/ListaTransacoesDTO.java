@@ -22,4 +22,8 @@ public class ListaTransacoesDTO {
     public void setTransacaoList(List<Transacao> transacaoList) {
         this.transacaoList = transacaoList;
     }
+
+    public static ListaTransacoesDTO of(List<Transacao> transacaoList){
+        return new ListaTransacoesDTO(transacaoList);
+    }
 }

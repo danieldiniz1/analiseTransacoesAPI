@@ -5,6 +5,7 @@ import br.com.financial.transacoes.controller.dto.TransacaoCriadaDTO;
 import br.com.financial.transacoes.controller.dto.TransacaoDTO;
 import br.com.financial.transacoes.controller.form.CadastroReceitaForm;
 import br.com.financial.transacoes.controller.form.UpdateForm;
+import br.com.financial.transacoes.model.Transacao;
 import br.com.financial.transacoes.service.TransacaoReceitaService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/receita")
@@ -51,5 +53,18 @@ public class ReceitaController {
     public ResponseEntity deleteReceita(@PathVariable Long id){
         transacaoReceitaService.deletarTransacao(id);
         return ResponseEntity.status(200).build();
+    }
+
+    @GetMapping("buscar-descricao")
+    public ResponseEntity<TransacaoDTO> buscarReceitaPorDescricao(@RequestParam String descricao){
+        LOGGER.info("iniciado busca de receita com descrição: " + descricao);
+        transacaoReceitaService.buscarTransacaoPorDescricao(descricao);
+        return ResponseEntity.ok().body(transacaoReceitaService.buscarTransacaoPorDescricao(descricao));
+    }
+
+    @GetMapping("/{ano}/{mes}")
+    public ResponseEntity<ListaTransacoesDTO> buscarReceitaPorMesEAno(@PathVariable String ano, @PathVariable String mes){
+        LOGGER.info("Iniciando busca por receita de ano: " + ano + " e mês: " + mes);
+        return ResponseEntity.ok().body(transacaoReceitaService.buscarTransacaoPorMesEAno(Integer.parseInt(ano),Integer.parseInt(mes)));
     }
 }
