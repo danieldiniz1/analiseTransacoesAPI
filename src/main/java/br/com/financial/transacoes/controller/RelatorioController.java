@@ -2,8 +2,6 @@ package br.com.financial.transacoes.controller;
 
 import br.com.financial.transacoes.controller.dto.relatoriodto.RelatorioDTO;
 import br.com.financial.transacoes.service.RelatorioService;
-import br.com.financial.transacoes.service.TransacaoDespesaService;
-import br.com.financial.transacoes.service.TransacaoService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,16 @@ public class RelatorioController {
     @GetMapping("/{ano}/{mes}")
     public ResponseEntity<RelatorioDTO> geraRelatorioMensal(@PathVariable Integer ano, @PathVariable Integer mes){
         LOGGER.info("mês: " + mes.toString() + ", ano: " + ano.toString() + ".");
-        return ResponseEntity.status(HttpStatus.OK).body(relatorioService.relatorioMensal(ano,mes));
+        return validate(ano, mes);
+    }
+
+    private ResponseEntity<RelatorioDTO> validate(Integer ano, Integer mes) {
+        RelatorioDTO relatorioDTO = null;
+        try {
+            relatorioDTO = relatorioService.relatorioMensal(ano,mes);
+        } catch (Exception ex){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(relatorioDTO);
     }
 }
