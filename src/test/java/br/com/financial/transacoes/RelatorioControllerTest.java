@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,30 +29,22 @@ public class RelatorioControllerTest {
     @Mock
     private RelatorioService relatorioService;
 
-    private RelatorioDTO relatorioDTOCompleted;
-    private ResponseEntity<RelatorioDTO> responseCompleted;
-    private Map<Categoria,BigDecimal> saldoPorCategoria = new HashMap<>();
+
 
     @BeforeEach
     void setup(){
-        populateMap(saldoPorCategoria);
-        relatorioDTOCompleted = RelatorioDTO.of(BigDecimal.valueOf(800),BigDecimal.valueOf(1000),BigDecimal.valueOf(200),saldoPorCategoria);
-        responseCompleted = ResponseEntity.status(200).body(relatorioDTOCompleted);
     }
 
     @Test
-    void deveDevolverUmRelatorioDTOComSOmaDeTodosOsLancamentosDoPeriodo(){
+    void deveDevolverUmRelatorioDTOComSOmaDeTodosOsLancamentosDoPeriodoSemLancarException(){
         Integer ano = 2020;
         Integer mes = 9;
         assertDoesNotThrow(() -> relatorioController.geraRelatorioMensal(ano, mes));
-//        when(relatorioController.geraRelatorioMensal(ano,mes)).thenReturn(responseCompleted);
-
     }
 
-    private void populateMap(Map<Categoria, BigDecimal> saldoPorCategoria) {
-        for (int i = 0; i <= 7; i++){
-            Categoria categoria = Categoria.toEnumCategoria(i);
-            saldoPorCategoria.put(categoria,BigDecimal.valueOf(100));
-        }
+    @Test
+    void deveLancarExceptionCasoMetodoNaoRecebaTodosParametrosOuParametrosInvalidos(){
+        assertThrows(Exception.class,() -> relatorioController.geraRelatorioMensal(Integer.parseInt(""),Integer.parseInt("")));
     }
+
 }
