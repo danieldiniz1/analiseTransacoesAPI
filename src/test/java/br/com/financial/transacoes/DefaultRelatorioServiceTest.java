@@ -30,11 +30,10 @@ public class DefaultRelatorioServiceTest {
     @BeforeEach
     public void setup(){
         Map<Categoria,BigDecimal> saldoPorCategoria = new HashMap<>();
-        relatorioDTOExpected = RelatorioDTO.of(BigDecimal.valueOf(800).setScale(2, RoundingMode.HALF_UP),
-                BigDecimal.valueOf(1000).setScale(2,RoundingMode.HALF_UP),
+        relatorioDTOExpected = RelatorioDTO.of(BigDecimal.valueOf(000).setScale(2, RoundingMode.HALF_UP),
+                BigDecimal.valueOf(0000).setScale(2,RoundingMode.HALF_UP),
                 BigDecimal.valueOf(000).setScale(2,RoundingMode.HALF_UP),
                 generateMap(saldoPorCategoria));
-
     }
 
     @Test
@@ -43,7 +42,6 @@ public class DefaultRelatorioServiceTest {
         Integer mes = 9;
         RelatorioDTO relatorioDTOResult = Assertions.assertDoesNotThrow(() -> defaultRelatorioService.relatorioMensal(ano, mes));
         Assertions.assertEquals(relatorioDTOExpected.getSaldo(),relatorioDTOResult.getSaldo());
-//        Assertions.assertEquals(relatorioDTOExpected,relatorioDTOResult); ele ta olhando valor de objeto, e nunca vai ser true pq são dois ponteiros.
     }
 
     private Map<Categoria, BigDecimal> generateMap(Map<Categoria, BigDecimal> saldoPorCategoria) {
