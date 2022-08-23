@@ -44,6 +44,15 @@ public class DefaultRelatorioServiceTest {
         Assertions.assertEquals(relatorioDTOExpected.getSaldo(),relatorioDTOResult.getSaldo());
     }
 
+    @Test
+    public void deveDevolverUmaExceptionQuandoOParametroEnviadoEVazio(){
+        Assertions.assertThrows(Exception.class, () -> defaultRelatorioService.relatorioMensal(Integer.parseInt(""),Integer.parseInt("")));
+    }
+    @Test
+    public void deveDevolverUmaExceptionQuandoOParametroEnviadoNaoEUmInteiro(){
+        Assertions.assertThrows(Exception.class, () -> defaultRelatorioService.relatorioMensal(Integer.parseInt("xyz"),Integer.parseInt("zye")));
+    }
+
     private Map<Categoria, BigDecimal> generateMap(Map<Categoria, BigDecimal> saldoPorCategoria) {
         for (int i = 0; i <= 7; i++){
             Categoria categoria = Categoria.toEnumCategoria(i);
