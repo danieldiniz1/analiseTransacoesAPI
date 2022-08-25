@@ -2,6 +2,7 @@ package br.com.financial.transacoes.security.service;
 
 import br.com.financial.transacoes.model.Cliente;
 import br.com.financial.transacoes.model.Transacao;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,5 +42,10 @@ public class TokenService {
         } catch (Exception ex){
             return false;
         }
+    }
+
+    public Long getIdCliente(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Long.parseLong(claims.getSubject());
     }
 }
