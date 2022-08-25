@@ -23,6 +23,10 @@ public class Transacao {
     private Conta conta;
     private BigDecimal valorTransacao;
 
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
     public Transacao() {
     }
 
